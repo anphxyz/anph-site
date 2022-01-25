@@ -1,0 +1,35 @@
+body {background: #f2f2f2;width: 100vw;font-family: "monaco";overflow: hidden;margin: 0;}
+.wrap {margin: 0 auto;max-width: 400px;padding: 15px;}
+.wrap .logo{margin: 0 auto;}
+.wrap .logo img{}
+.wrap .css-typing{}
+.wrap .logo h5{white-space: nowrap;overflow: hidden;width: 37ch;animation: type 1s steps(37, end);animation-fill-mode: forwards;color: #256E99;}
+.wrap .css-typing p {margin-top: 20px;border-right: .15em solid orange;font-size: 14px;white-space: nowrap;overflow: hidden;}
+.wrap .css-typing p:nth-child(1) {width: 35ch;opacity: 0;animation: type2 2s steps(35, end);animation-delay: 1s;animation-fill-mode: forwards;}
+.wrap .css-typing p:nth-child(2) {width: 40ch;opacity: 0;animation: type2 2s steps(40, end);animation-delay: 3s;animation-fill-mode: forwards;}
+.wrap .css-typing p:nth-child(3) {width: 27ch;opacity: 0;animation: type2 2s steps(27, end);animation-delay: 5s;animation-fill-mode: forwards;}
+.wrap .contact{padding: 15px;border-radius: 0 0 0 15px;width: 80%;box-shadow: -5px 5px 0px 0px #1994CD66;}
+.wrap .contact p{line-height: 18px;}
+.wrap .contact p>em{font-style: normal;font-size: 22px;color: #256E99;}
+
+@keyframes type {0% {width: 0;}99.9% {border-right: .15em solid orange;}
+  100% {border: none;}
+}
+@-webkit-keyframes type {0% {width: 0;}
+  99.9% {border-right: .15em solid orange;}
+  100% {border: none;}
+}
+@keyframes type2 {0% {width: 0;}
+  1% {opacity: 1;}
+  99.9% {border-right: .15em solid orange;}
+  100% {opacity: 1;  border: none;}
+}
+@-webkit-keyframes type2 {0% {width: 0;}
+  1% {opacity: 1;}
+  99.9% {border-right: .15em solid orange;}
+  100% {opacity: 1;  border: none;}
+}
+@keyframes blink {50% {border-color: transparent;}
+}
+@-webkit-keyframes blink {50% {border-color: tranparent;}
+}

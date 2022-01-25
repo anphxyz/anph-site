@@ -10,6 +10,10 @@ app.use('/', require('./routes/auth'))
 
 app.use('/token', require('./routes/token'))
 
+app.use('/analytics', require('./routes/analytics'))
+
+app.use(express.static('html'))
+
 app.get('/', async (req, res) => {
     console.log('>> Anph webinaris 4.0 chat server running... ');
     // const aes = require('./util/aesHelper')
@@ -17,7 +21,7 @@ app.get('/', async (req, res) => {
     // console.log(hw)
     // console.log(aes.decrypt(hw))
 
-    return res.status(200).send({ status: 'success', elements: 'Welcome to anph.xyz!' })
+    return res.status(200).sendFile('./html/index.html', { root: __dirname })
 });
 
 
