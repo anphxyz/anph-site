@@ -1,36 +1,54 @@
-POST http://localhost:3000/register
+POST https://anph.xyz/register
 Content-Type: application/json
 
 {
-  "email": "an.ph@queenvb.vn",
+  "email": "aanltll2992@gmail.com",
   "password": "123",
-  "cnfirmPassword": "123",
+  "confirmPassword": "123",
   "phoneNumber":"0987654321"
-  }
-
-###
-
-DELETE http://localhost:4000/logout
-Content-Type: application/json
-
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNTY4NzU5OTIyfQ.RT6wszuCeFLwC_6ksmNMIELxiC5s-uRivfRxyZof5ag"
 }
 
 ###
 
-POST http://localhost:4000/token
+GET https://anph.xyz/active?t=7%2FWNpDMp5FC7%2BLNOzt7zBBihkYDZDu2tmfrzVSIefcFkI0j7heXUvsbRqgo3RDU9DZuKsSLOjHlWu8uWlTXTURThwUCmd9sLEy%2FJbXK6YReUzURvup6OXjAbrhBSHwaw
+Content-Type: application/json
+
+###
+
+POST https://anph.xyz/login
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSmltIiwiaWF0IjoxNTY4NzU5OTIyfQ.RT6wszuCeFLwC_6ksmNMIELxiC5s-uRivfRxyZof5ag"
+  "email": "aanltll2992@gmail.com",
+  "password": "123"
 }
 
 ###
 
-POST http://localhost:4000/login
+DELETE https://anph.xyz/logout
 Content-Type: application/json
 
 {
-  "username": "Jim"
+  "email": "aanltll2992@gmail.com"
+}
+
+###
+
+POST https://anph.xyz/token
+Content-Type: application/json
+
+{
+  "email":"aanltll2992@gmail.com",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMDNiZTExODczMWI2MzFiN2FmODA5ZDVhNzY2YTA3IiwiZW1haWwiOiJhYW5sdGxsMjk5MkBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6IjA5ODc2NTQzMjEiLCJwYXNzd29yZCI6IjIwMmNiOTYyYWM1OTA3NWI5NjRiMDcxNTJkMjM0YjcwIiwiYWN0aXZlIjp0cnVlLCJpYXQiOjE2NDMxMjQwMTF9.X2ft874jBcQtmGfNlBKTGhH4ZdoeIa1_xl2dNTpmmBo"
+}
+
+###
+
+POST https://anph.xyz/user_detail
+Content-Type: application/json
+Authorization: ANPH eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMDNiZTExODczMWI2MzFiN2FmODA5ZDVhNzY2YTA3IiwiZW1haWwiOiJhYW5sdGxsMjk5MkBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6IjA5ODc2NTQzMjEiLCJwYXNzd29yZCI6IjIwMmNiOTYyYWM1OTA3NWI5NjRiMDcxNTJkMjM0YjcwIiwiYWN0aXZlIjp0cnVlLCJpYXQiOjE2NDMxMjQwMTEsImV4cCI6MTY0MzEyNzYxMX0.gOJrmQDhBn6hWm5_QxeyCapIwd8hnW0JS6iFLLDTFuA
+
+
+{
+  "email": "aanltll2992@gmail.com"
 }

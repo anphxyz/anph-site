@@ -3,14 +3,11 @@
  * @created 23/02/2022
  */
 const router = require('express').Router();
-
+const token = require('../controllers/token');
 /**
 * @middleware that is specific to this router
 */
-
-
-router.get('/token', (req, res) => { });
-
+router.post('/', token.refresh);
 
 
 module.exports = router;

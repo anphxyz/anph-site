@@ -1,12 +1,17 @@
 
 /**
- * 
- * @param {*} req 
- * @param {*} res 
+ * @POST
+ * @param {
+ *  email
+ *  password
+ *  confirmPassword
+ *  phoneNumber
+ * } req.body
  */
-const authDis = require('../util/redisHelper').build('AUTH')
 const crypto = require('crypto');
 const validator = require('validator');
+const aes = require('../utils/aesHelper');
+
 
 exports.register = async (req, res) => {
     const {
@@ -22,6 +27,11 @@ exports.register = async (req, res) => {
     // validate email
     if (!validator.isEmail(email)) {
         return res.status(400).send({ message: 'Email is invalid' });
+    }
+    const authDis = require('../utils/redisHelper').build('AUTH')
+    const user = await authDis.get(email);
+    if (user) {
+        return res.status(400).send({ message: 'Email is existed' });
     }
     // validate password
     if (password !== confirmPassword) {
@@ -46,50 +56,123 @@ exports.register = async (req, res) => {
     //      */
     //     return res.status(400).send({ message: 'Password is invalid' });
     // }
-
+    // store user
     await authDis.set(email, {
+        id: crypto.randomBytes(16).toString('hex'),
         email,
         phoneNumber,
-        password: crypto.createHash('md5').update(password).digest("hex")
+        password: crypto.createHash('md5').update(password).digest("hex"),
+        active: false
+    });
+    // send email active
+    await sendEmailActive(email);
+    //
+    return res.send({ message: 'Register success' });
+}
+
+async function sendEmailActive(email) {
+    // create active token
+    const activeToken = encodeURIComponent(aes.encrypt([email, new Date()].join('##')));
+    // send email
+    const { sendActive } = require('../utils/sesSender');
+    return await sendActive(email, activeToken);
+}
+
+
+
+/**
+ * @POST
+ * @param {
+ *  email
+ *  password
+ * } req.body
+ */
+exports.active = async (req, res) => {
+    const token = req.query.t || '';
+    if (!token) {
+        return res.status(400).send({ message: 'Token is invalid' });
+    }
+    // create active token
+    const [email, time] = decodeURIComponent(aes.decrypt(token)).split('##');
+    // prevent come from future
+    if (new Date(time) > new Date()) {
+        return res.status(400).send({ message: 'Do you come form future?' });
+    }
+    const authDis = require('../utils/redisHelper').build('AUTH')
+    const user = await authDis.get(email);
+
+    if (!user) {
+        return res.status(400).send({ message: 'Account not found!' });
+
+    }
+    await authDis.set(email, {
+        ...user, active: true
     });
 
-    return res.status(200).send({ message: 'Register success' });
+    return res.send({ message: 'Your account has been actived successfully!' });
 }
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- */
-exports.active = (req, res) => { }
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- * @returns 
- */
-exports.login = (req, res) => {
-    // Authenticate User
-    const username = req.body.username
-    const password = req.body.password
-    const user = { name: username }
-    const accessToken = generateAccessToken(user)
-    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-    refreshTokens.push(refreshToken)
-    return res.json({ accessToken: accessToken, refreshToken: refreshToken })
-}
-/**
- * 
- * @param {*} req 
- * @param {*} res 
- */
-exports.user_detail = (req, res) => {
 
+
+/**
+ * @POST
+ * @param {
+ *  email
+ *  password
+ * } req.body
+ */
+exports.login = async (req, res) => {
+
+    log.error('login', req.body);
+
+    const {
+        email = '',
+        password = ''
+    } = req.body;
+    const authDis = require('../utils/redisHelper').build('AUTH')
+    const user = await authDis.get(email);
+    console.log('user', user);
+    // not found user
+    if (!user) {
+        return res.status(400).send({ message: 'Email is not found!' });
+    }
+
+    // check password
+    if (user.password !== crypto.createHash('md5').update(password).digest("hex")) {
+        return res.status(400).send({ message: 'Password is invalid!' });
+    }
+
+    //check active 
+    if (!user.active) {
+        return res.status(400).send({ message: 'User is not active!' });
+    }
+
+    // Authenticate User
+    const { generateAccessToken, generateRefreshToken } = require('../utils/tokenManager');
+    return res.json({
+        accessToken: generateAccessToken(user),
+        refreshToken: await generateRefreshToken(user)
+    })
 }
 /**
  * 
  * @param {*} req 
  * @param {*} res 
  */
-exports.logout = (req, res) => { }
+exports.user_detail = async (req, res) => {
+    const email = req.body.email || '';
+    const authDis = require('../utils/redisHelper').build('AUTH')
+    const user = await authDis.get(email);
+    return res.json(user);
+}
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.logout = (req, res) => {
+    const { removeRefreshToken } = require('../utils/tokenManager');
+    removeRefreshToken(req.body.email)
+    res.sendStatus(204)
+}
 
 
