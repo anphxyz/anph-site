@@ -2,7 +2,7 @@
   "name": "anph-xyz",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "pm2 start ecosystem.config.js",
     "prod": "pm2 start ecosystem.config.js --env production",
@@ -14,12 +14,11 @@
   "dependencies": {
     "alog-xyz": "^1.0.10",
     "aredis-xyz": "^1.0.18",
+    "aws-sdk": "^2.1062.0",
     "dotenv": "^8.6.0",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "validator": "^13.7.0"
   },
-  "devDependencies": {
-    "nodemon": "^1.19.2"
-  }
+  "devDependencies": {}
 }
