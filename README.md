@@ -1,8 +1,14 @@
 I. Description
 
-This is a simple app using JWT to authenticate and using SES to send mail by anph hosted at AWS server at https://anph.xyz
+This is a simple app using:
 
-II. Install
+- JWT to authenticate
+- SES to send mail
+- Report using Google Analytics API
+
+created by `ANPH` and hosted on AWS server at https://anph.xyz
+
+II. Installation:
 
 1. Install pm2 to manage node application:
 
@@ -63,7 +69,7 @@ II. Install
 
 III. Usage
 
-* Note: you need to login to get `access Token` (valid for 1 hour) to access both `/user_detail` and `/analytics` routes
+* Note: you need to login to get `accessToken` (valid for 1 hour) to access both `/user_detail` and `/analytics` routes
 
 a. Register new account
 
