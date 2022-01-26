@@ -139,3 +139,6 @@ g. See all statistics powered by google analytics
     {
         "view_id": "259241289"
     }
+
+IV. Utility tool:
+If you use `VSCode`, you can install a pluggin called `REST client` (author: Huachao Mao with more than 2M download times) then use the `requests.rest` file to invoke the requests I listed above.
