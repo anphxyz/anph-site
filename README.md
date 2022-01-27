@@ -69,7 +69,7 @@ II. Installation:
 
 III. Usage
 
-* Note: you need to login to get `accessToken` (valid for 1 hour) to access both `/user_detail` and `/analytics` routes
+* Note: you need to login to get `accessToken` (valid for 1 hour) to access `/user_detail`, `/delete_account` and `/analytics` routes
 
     a. Register new account
 
@@ -139,6 +139,17 @@ III. Usage
         {
             "view_id": "259241289"
         }
+
+    h. Detete account bind with email
+    
+        DELETE https://anph.xyz/delete_account
+        Content-Type: application/json
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMDNiZTExODczMWI2MzFiN2FmODA5ZDVhNzY2YTA3IiwiZW1haWwiOiJhYW5sdGxsMjk5MkBnbWFpbC5jb20iLCJwaG9uZU51bWJlciI6IjA5ODc2NTQzMjEiLCJwYXNzd29yZCI6IjIwMmNiOTYyYWM1OTA3NWI5NjRiMDcxNTJkMjM0YjcwIiwiYWN0aXZlIjp0cnVlLCJpYXQiOjE2NDMxNjg1NTcsImV4cCI6MTY0MzE3MjE1N30.l03gdlVEJF_f59X9Ps2qYkcOVwtCThQFXV76XVQr2ZQ
+        
+        {
+            "email": "aanltll2992@gmail.com"
+        }
+
 
 IV. Utility tool:
 

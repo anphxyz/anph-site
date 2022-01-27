@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
         password = '',
         confirmPassword = '',
         phoneNumber = ''
-    } = req.body;
+    } = JSON.stringify(req.body).length === 2 ? req.query : req.body;
     // validate phone number
     if (!validator.isMobilePhone(phoneNumber, 'vi-VN')) {
         return res.status(400).send({ message: 'Phone number is invalid' });
@@ -127,7 +127,7 @@ exports.login = async (req, res) => {
     const {
         email = '',
         password = ''
-    } = req.body;
+    } = JSON.stringify(req.body).length === 2 ? req.query : req.body;
     const authDis = require('../utils/redisHelper').build('AUTH')
     const user = await authDis.get(email);
     console.log('user', user);
@@ -175,4 +175,23 @@ exports.logout = (req, res) => {
     res.sendStatus(204)
 }
 
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+exports.delete_account = async (req, res) => {
+    const { removeRefreshToken } = require('../utils/tokenManager');
+    removeRefreshToken(req.body.email);
+    const email = req.body.email || req.query.email;
+    const authDis = require('../utils/redisHelper').build('AUTH')
+    const user = await authDis.get();
+    if (!user) {
+        return res.status(400).send({ message: 'User not found!' });
+    }
 
+    authDis.del(email)
+    authDis.set('[DELETED]' + email, user)
+
+    res.sendStatus(204)
+}

@@ -34,6 +34,16 @@ Content-Type: application/json
 
 ###
 
+DELETE https://anph.xyz/detele_account
+Content-Type: application/json
+
+{
+  "email": "aanltll2992@gmail.com"
+}
+
+
+###
+
 POST https://anph.xyz/token
 Content-Type: application/json
 

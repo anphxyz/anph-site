@@ -14,8 +14,10 @@ router.get('/active', auth.active);
 
 router.post('/login', auth.login);
 
+router.post('/user_detail', authenticateToken, auth.user_detail);
+
 router.delete('/logout', auth.logout);
 
-router.post('/user_detail', authenticateToken, auth.user_detail);
+router.delete('/delete_account', authenticateToken, auth.delete_account);
 
 module.exports = router;
