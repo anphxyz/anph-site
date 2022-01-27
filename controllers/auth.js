@@ -20,6 +20,11 @@ exports.register = async (req, res) => {
         confirmPassword = '',
         phoneNumber = ''
     } = JSON.stringify(req.body).length === 2 ? req.query : req.body;
+
+    // validate data
+    if (!email || !password || !confirmPassword || !phoneNumber) {
+        return res.status(400).send({ message: 'Invalid data!' });
+    }
     // validate phone number
     if (!validator.isMobilePhone(phoneNumber, 'vi-VN')) {
         return res.status(400).send({ message: 'Phone number is invalid' });
@@ -171,7 +176,8 @@ exports.user_detail = async (req, res) => {
  */
 exports.logout = (req, res) => {
     const { removeRefreshToken } = require('../utils/tokenManager');
-    removeRefreshToken(req.body.email)
+    const email = req.body.email || req.query.email;
+    removeRefreshToken(email);
     res.sendStatus(204)
 }
 
@@ -182,16 +188,16 @@ exports.logout = (req, res) => {
  */
 exports.delete_account = async (req, res) => {
     const { removeRefreshToken } = require('../utils/tokenManager');
-    removeRefreshToken(req.body.email);
     const email = req.body.email || req.query.email;
+    removeRefreshToken(email);
     const authDis = require('../utils/redisHelper').build('AUTH')
-    const user = await authDis.get();
+    const user = await authDis.get(email);
     if (!user) {
         return res.status(400).send({ message: 'User not found!' });
     }
 
-    authDis.del(email)
-    authDis.set('[DELETED]' + email, user)
+    await authDis.set('[DELETED]' + email, { ...user, active: false });
+    await authDis.del(email)
 
     res.sendStatus(204)
 }
