@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
         password = '',
         confirmPassword = '',
         phoneNumber = ''
-    } = JSON.stringify(req.body).length === 2 ? req.query : req.body;
+    } = getData(req);
 
     // validate data
     if (!email || !password || !confirmPassword || !phoneNumber) {
@@ -126,13 +126,10 @@ exports.active = async (req, res) => {
  * } req.body
  */
 exports.login = async (req, res) => {
-
-    log.error('login', req.body);
-
     const {
         email = '',
         password = ''
-    } = JSON.stringify(req.body).length === 2 ? req.query : req.body;
+    } = getData(req);
     const authDis = require('../utils/redisHelper').build('AUTH')
     const user = await authDis.get(email);
     console.log('user', user);
@@ -164,7 +161,7 @@ exports.login = async (req, res) => {
  * @param {*} res 
  */
 exports.user_detail = async (req, res) => {
-    const email = req.body.email || '';
+    const { email } = getData(req);
     const authDis = require('../utils/redisHelper').build('AUTH')
     const user = await authDis.get(email);
     return res.json(user);
@@ -176,7 +173,7 @@ exports.user_detail = async (req, res) => {
  */
 exports.logout = (req, res) => {
     const { removeRefreshToken } = require('../utils/tokenManager');
-    const email = req.body.email || req.query.email;
+    const { email } = getData(req);
     removeRefreshToken(email);
     res.sendStatus(204)
 }
@@ -188,7 +185,7 @@ exports.logout = (req, res) => {
  */
 exports.delete_account = async (req, res) => {
     const { removeRefreshToken } = require('../utils/tokenManager');
-    const email = req.body.email || req.query.email;
+    const { email } = getData(req);
     removeRefreshToken(email);
     const authDis = require('../utils/redisHelper').build('AUTH')
     const user = await authDis.get(email);
@@ -201,3 +198,6 @@ exports.delete_account = async (req, res) => {
 
     res.sendStatus(204)
 }
+
+
+const getData = req => JSON.stringify(req.body).length === 2 ? req.query : req.body;

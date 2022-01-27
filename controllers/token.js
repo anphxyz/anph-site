@@ -3,8 +3,7 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 
 exports.refresh = async (req, res) => {
-    const refreshToken = req.body.token || '';
-    const email = req.body.email || '';
+    const { email, token: refreshToken } = getData(req);
     // validate email
     if (!validator.isEmail(email)) {
         return res.status(400).send({ message: 'Email is invalid' });
@@ -35,3 +34,6 @@ exports.refresh = async (req, res) => {
         res.json({ accessToken })
     })
 }
+
+
+const getData = req => JSON.stringify(req.body).length === 2 ? req.query : req.body;

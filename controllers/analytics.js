@@ -1,6 +1,7 @@
 
 exports.report = async (req, res) => {
-    const pageViews = await getGReport(req.body.view_id, 'ga:screenviews, ga:pageviews, ga:users');
+    const { view_id } = getData(req);
+    const pageViews = await getGReport(view_id, 'ga:screenviews, ga:pageviews, ga:users');
 
     const total = pageViews.data.totalsForAllResults || {}
     return res.send({
@@ -41,3 +42,5 @@ const getGReport = async (view_id, metrics) => {
     })
 
 }
+
+const getData = req => JSON.stringify(req.body).length === 2 ? req.query : req.body;
