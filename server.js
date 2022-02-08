@@ -16,11 +16,6 @@ app.use(express.static('html'))
 
 app.get('/', async (req, res) => {
     console.log('>> Anph webinaris 4.0 chat server running... ');
-    // const aes = require('./util/aesHelper')
-    // var hw = aes.encrypt("Some serious stuff")
-    // console.log(hw)
-    // console.log(aes.decrypt(hw))
-
     return res.status(200).sendFile('./html/index.html', { root: __dirname })
 });
 
