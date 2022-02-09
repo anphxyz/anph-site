@@ -25,22 +25,22 @@ exports.register = async (req, res) => {
     if (!email || !password || !confirmPassword || !phoneNumber) {
         return res.status(400).send({ message: 'Invalid data!' });
     }
-    // validate phone number
-    if (!validator.isMobilePhone(phoneNumber, 'vi-VN')) {
-        return res.status(400).send({ message: 'Phone number is invalid' });
+    // validate password
+    if (password !== confirmPassword) {
+        return res.status(400).send({ message: 'Password is invalid' });
     }
     // validate email
     if (!validator.isEmail(email)) {
         return res.status(400).send({ message: 'Email is invalid' });
     }
+    // validate phone number
+    if (!validator.isMobilePhone(phoneNumber, 'vi-VN')) {
+        return res.status(400).send({ message: 'Phone number is invalid' });
+    }
     const authDis = require('../utils/redisHelper').build('AUTH')
     const user = await authDis.get(email);
     if (user) {
         return res.status(400).send({ message: 'Email is existed' });
-    }
-    // validate password
-    if (password !== confirmPassword) {
-        return res.status(400).send({ message: 'Password is invalid' });
     }
     // validate strong password
     // if (!validator.isStrongPassword(password)) {
