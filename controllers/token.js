@@ -1,9 +1,10 @@
 const { generateAccessToken, checkExistRefreshToken } = require('../utils/tokenManager');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const { dettachPostData } = require('../utils')
 
 exports.refresh = async (req, res) => {
-    const { email, token: refreshToken } = getData(req);
+    const { email, token: refreshToken } = dettachPostData(req);
     // validate email
     if (!validator.isEmail(email)) {
         return res.status(400).send({ message: 'Email is invalid' });
@@ -34,6 +35,3 @@ exports.refresh = async (req, res) => {
         res.json({ accessToken })
     })
 }
-
-
-const getData = req => JSON.stringify(req.body).length === 2 ? req.query : req.body;

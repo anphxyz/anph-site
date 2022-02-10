@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const server = require('http').createServer(app)
+const formidable = require('express-formidable');
 //global
 global.log = require('alog-xyz').getLogger({ mode: 'development', dirpath: __dirname, lohName: 'ANPH.XYZ' })
 // use middleware
@@ -12,6 +13,7 @@ if (process.env.NODE_ENV !== 'TEST') {
     app.use(morgan('combined')); //'combined' outputs the Apache style LOGs
 }
 app.use(express.static('html'))
+app.use(formidable());
 //
 
 // All Router

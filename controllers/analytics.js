@@ -1,6 +1,7 @@
 
 exports.report = async (req, res) => {
-    const { view_id } = getData(req);
+    const { dettachPostData } = require('../utils')
+    const { view_id } = dettachPostData(req);
     const pageViews = await getGReport(view_id, 'ga:screenviews, ga:pageviews, ga:users');
 
     const total = pageViews.data.totalsForAllResults || {}
@@ -16,7 +17,6 @@ exports.report = async (req, res) => {
     })
 
 }
-
 
 const getGReport = async (view_id, metrics) => {
     const { google } = require('googleapis')
@@ -42,5 +42,3 @@ const getGReport = async (view_id, metrics) => {
     })
 
 }
-
-const getData = req => JSON.stringify(req.body).length === 2 ? req.query : req.body;
