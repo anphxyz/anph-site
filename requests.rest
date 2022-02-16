@@ -74,5 +74,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQwZWU2OTQ0Y
 
 
 {
-  "view_id": "259241289"
+  "viewId": "259241289"
 }

@@ -1,8 +1,8 @@
 
 exports.report = async (req, res) => {
     const { dettachPostData } = require('../utils')
-    const { view_id } = dettachPostData(req);
-    const pageViews = await getGReport(view_id, 'ga:screenviews, ga:pageviews, ga:users');
+    const { viewId } = dettachPostData(req);
+    const pageViews = await getGReport(viewId, 'ga:screenviews, ga:pageviews, ga:users');
 
     const total = pageViews.data.totalsForAllResults || {}
     return res.send({
@@ -18,7 +18,7 @@ exports.report = async (req, res) => {
 
 }
 
-const getGReport = async (view_id, metrics) => {
+const getGReport = async (viewId, metrics) => {
     const { google } = require('googleapis')
     const scope = ['https://www.googleapis.com/auth/analytics.readonly'];
     const jwt = new google.auth.JWT(process.env.GOOGLE_CLIENT_EMAIL, null,
@@ -35,7 +35,7 @@ const getGReport = async (view_id, metrics) => {
 
     return await google.analytics('v3').data.ga.get({
         'auth': jwt,
-        'ids': 'ga:' + view_id,
+        'ids': 'ga:' + viewId,
         'start-date': '30daysAgo',
         'end-date': 'today',
         'metrics': metrics

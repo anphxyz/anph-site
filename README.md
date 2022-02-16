@@ -137,7 +137,7 @@ III. Usage
 
 
         {
-            "view_id": "259241289"
+            "viewId": "259241289"
         }
 
     h. Detete account bind with email
