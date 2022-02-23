@@ -2,7 +2,6 @@
  * @author ANPH
  * @created 23/02/2022
 */
-
 const aredis = require('aredis-xyz')
 
 exports.build = (hash) => {

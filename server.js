@@ -21,11 +21,16 @@ app.use('/', require('./routes/auth'))
 app.use('/token', require('./routes/token'))
 app.use('/analytics', require('./routes/analytics'))
 
-app.get('/', async (_, res) => res.status(200).sendFile('./html/index.html', { root: __dirname }));
-//
+/**
+ * 
+ */
+app.get('/')
+app.get('/about', async (_, res) => res.status(200).sendFile('./html/index.html', { root: __dirname }));
+/**
+ * 
+ */
 const { PORT, NODE_ENV } = process.env
 server.listen(PORT, () => log.info(`server started..`, { NODE_ENV, PORT }))
-
 
 require('dotenv').config();
 

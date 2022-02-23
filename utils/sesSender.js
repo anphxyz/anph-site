@@ -7,9 +7,7 @@ exports.sendActive = (email, code) => {
         region: process.env.SES_REGION,
         apiVersion: '2010-12-01',
     }
-
     const sesAws = new AWS.SES(sesConfig);
-
     const params = {
         Destination: {
             ToAddresses: [
