@@ -1,8 +1,8 @@
 ---
-title: QB Table Description
+title: B Table Description
 date: 2018-05-08 11:18:32
-tags: queenb
-category: queenb
+tags: B
+category: B
 ---
 ### TABLE NAME
   [1 character][3 number]{x}
